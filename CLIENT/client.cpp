@@ -18,6 +18,7 @@ void ClientHandler() {
 		delete[] msg;
 	}
 }
+
 int main(int argc, char* argv[]) {
 	setlocale(LC_ALL, "ru");
 	SetConsoleCP(1251);
@@ -47,12 +48,14 @@ int main(int argc, char* argv[]) {
 	std::cout << "Connected!\n";
 	CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ClientHandler, NULL,
 		NULL, NULL);
-	std::string msg1;
+	std::string str;
 	while (true) {
-		std::getline(std::cin, msg1);
-		int msg_size = msg1.size();
+		std::cout << "\nВведите определение: ";
+		std::getline(std::cin, str);
+
+		int msg_size = str.size();
 		send(Connection, (char*)&msg_size, sizeof(int), NULL);
-		send(Connection, msg1.c_str(), msg_size, NULL);
+		send(Connection, (char*)str.c_str(), msg_size, NULL);
 		Sleep(10);
 	}
 	system("pause");
